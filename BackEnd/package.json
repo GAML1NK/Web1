@@ -1,0 +1,15 @@
+{
+  "name": "tekstil-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "@prisma/extension-accelerate": "^2.0.2",
+    "express": "^4.21.2",
+    "multer": "^2.0.2",
+    "prisma": "^5.22.0"
+  }
+}

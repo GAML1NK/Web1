@@ -1,0 +1,157 @@
+/* Home sayfası tanıtım bölümü için büyük yazı stili */
+.home-info-section {
+  padding-top: 115px !important;
+  
+  padding-bottom: 115px !important;
+}
+.home-info-title {
+  font-size: 2.8rem;
+  
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 2rem !important;
+}
+.home-info-lead {
+  font-size: 2.5rem;
+  
+  line-height: 2rem;
+  margin-bottom: 2rem !important;
+}
+/* Hero bölümü için özel stil */
+.hero-section {
+  min-height: 55vh;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 30vh;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Canlı destek yuvarlak butonu */
+.live-support-btn {
+  position: fixed;
+  right: 2.2rem;
+  bottom: 2.2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  font-size: 2rem;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.live-support-btn:hover {
+  background: #128c7e;
+}
+
+/* Açılır panel */
+.live-support-panel {
+  position: fixed;
+  right: 2.2rem;
+  bottom: 5.5rem;
+  width: 340px;
+  max-width: 95vw;
+  background: #fff;
+  border-radius: 22px 22px 12px 12px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  padding: 1.3rem 1.1rem 1.1rem 1.1rem;
+  z-index: 1051;
+  border: 1px solid #e0e0e0;
+  animation: supportPanelIn 0.2s;
+}
+@keyframes supportPanelIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ana sayfadaki Products (Öne Çıkan Ürünler) bölümünü büyütmek için */
+.products-section {
+  padding-top: 95px;
+  padding-bottom: 80px;
+}
+
+/* Ürün kartlarını daha büyük ve belirgin yapmak için */
+.product-card {
+  min-height: 480px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  border-radius: 18px;
+  transition: transform 0.18s;
+ 
+}
+.product-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+}
+.product-card .card-img-top {
+  height: 320px;
+  object-fit: cover;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  
+}
+.product-card .card-body {
+  padding: 1.3rem 1rem 1rem 1rem;
+  border: 20px #fff ;
+}
+.product-card, .product-card.card, .product-card .card {
+  border: none !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
