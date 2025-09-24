@@ -1,8 +1,11 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import React from "react";
+import { useTranslation } from "react-i18next";
+import '../i18n';
 
 export default function MyNavbar() {
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -52,10 +55,11 @@ export default function MyNavbar() {
           />
         </Navbar.Brand>
         <Nav className="ms-auto">
-          {/* Ana Sayfa butonuna özel onClick ekliyoruz */}
-          <Nav.Link as={Link} to="/" onClick={handleHomeClick}>Ana Sayfa</Nav.Link>
-          <Nav.Link as={Link} to="/kategoriler">Kategoriler</Nav.Link>
-          <Nav.Link href="#contact-section" onClick={handleContactClick}>İletişim</Nav.Link>
+          <Nav.Link as={Link} to="/" onClick={handleHomeClick}>{t('home')}</Nav.Link>
+          <Nav.Link as={Link} to="/kategoriler">{t('categories')}</Nav.Link>
+          <Nav.Link href="#contact-section" onClick={handleContactClick}>{t('contact')}</Nav.Link>
+          <Nav.Link onClick={() => i18n.changeLanguage('tr')}>TR</Nav.Link>
+          <Nav.Link onClick={() => i18n.changeLanguage('en')}>EN</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
