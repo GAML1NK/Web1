@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Categories() {
-  const [categories, setCategories] = useState([
-    { id: 1, name: "Kadın Giyim", desc: "Elbise, bluz, pantolon ve daha fazlası.", img: "/img/kadınGiyim.jpg" },
-    { id: 2, name: "Erkek Giyim", desc: "Gömlek, tişört, ceket ve daha fazlası.", img: "/img/erkekGiyim.jpg" },
-    { id: 3, name: "Çocuk Giyim", desc: "Çocuklar için rahat ve şık ürünler.", img: "/img/cocukGiyim.jpg" },
-  ]);
+  const [categories, setCategories] = useState([]);
 
-  // Yeni kategori eklemek için örnek fonksiyon (ileride kullanılabilir)
-  // const addCategory = (newCat) => setCategories([...categories, newCat]);
+  useEffect(() => {
+    // Sadece erkek giyim kategorilerini çek
+    fetch("http://localhost:3001/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        // Erkek giyim ile ilgili kategorileri filtrele (örnek: Gömlek, Pantolon, Ceket, Tişört, Takım Elbise)
+        const erkekKategoriler = data.filter(cat => [
+          "Gömlek", "Pantolon", "Ceket", "Tişört", "Takım Elbise"
+        ].includes(cat.name));
+        setCategories(erkekKategoriler);
+      });
+  }, []);
 
   return (
     <div className="container mt-5 pt-5">
@@ -19,18 +26,17 @@ export default function Categories() {
           <div className="col-md-4 mb-4" key={cat.id}>
             <div className="card h-100 shadow-sm">
               <img
-                src={cat.img}
+                src={"/img/erkekGiyim.jpg"}
                 className="card-img-top w-100"
                 alt={cat.name}
                 style={{ height: "550px", objectFit: "cover" }}
               />
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title">{cat.name}</h5>
-                <p className="card-text flex-grow-1">{cat.desc}</p>
+                <p className="card-text flex-grow-1">Erkek giyim ürünleri</p>
                 <Link
-                  to={cat.name === "Erkek Giyim" ? "/urunler/gomlek" : "#"}
+                  to={`/urunler/${cat.name.toLowerCase()}`}
                   className="btn btn-outline-primary mt-auto"
-                  disabled={cat.name !== "Erkek Giyim"}
                 >
                   Ürünleri Gör
                 </Link>

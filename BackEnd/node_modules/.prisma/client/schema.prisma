@@ -37,3 +37,7 @@ model ProductVariant {
   productId Int
   product   Product @relation(fields: [productId], references: [id])
 }
+
+// Erkek giyim için örnek kategoriler:
+// Gömlek, Pantolon, Ceket, Tişört, Takım Elbise
+// Kullanıcı panelinden ürün eklerken: fotoğraf, açıklama, kategori, varyant (renk, beden, stok)

@@ -58,6 +58,7 @@ export default function MyNavbar() {
           <Nav.Link as={Link} to="/" onClick={handleHomeClick}>{t('home')}</Nav.Link>
           <Nav.Link as={Link} to="/kategoriler">{t('categories')}</Nav.Link>
           <Nav.Link href="#contact-section" onClick={handleContactClick}>{t('contact')}</Nav.Link>
+          <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
           <Nav.Link onClick={() => i18n.changeLanguage('tr')}>TR</Nav.Link>
           <Nav.Link onClick={() => i18n.changeLanguage('en')}>EN</Nav.Link>
         </Nav>

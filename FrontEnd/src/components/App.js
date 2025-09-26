@@ -7,6 +7,7 @@ import Contact from "../pages/Contact";
 import ProductDetail from "../pages/ProductDetail";
 import CategoryProducts from "../pages/CategoryProducts";
 import LiveSupport from "./LiveSupport";
+import AdminPanel from "../pages/AdminPanel";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/iletisim" element={<Contact />} />
           <Route path="/urun/:id" element={<ProductDetail />} />
           <Route path="/urunler/:kategori" element={<CategoryProducts />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
 
