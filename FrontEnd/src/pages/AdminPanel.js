@@ -13,8 +13,20 @@ export default function AdminPanel() {
 
   React.useEffect(() => {
     fetch("http://localhost:3001/categories")
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
+      .then((res) => {
+        if (!res.ok) {
+          console.error('Kategori API hatası:', res.status, res.statusText);
+          return [];
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log('Gelen kategoriler:', data);
+        setCategories(data);
+      })
+      .catch((err) => {
+        console.error('Kategori API fetch hatası:', err);
+      });
   }, []);
 
   const handleChange = (e) => {
@@ -29,7 +41,11 @@ export default function AdminPanel() {
   const handleVariantChange = (idx, e) => {
     const { name, value } = e.target;
     const newVariants = [...form.variants];
-    newVariants[idx][name] = value;
+    if (name === "stock") {
+      newVariants[idx][name] = value === "" ? "" : Number(value);
+    } else {
+      newVariants[idx][name] = value;
+    }
     setForm({ ...form, variants: newVariants });
   };
 

@@ -7,6 +7,7 @@ async function main() {
     "Tişört",
     "EşofmanAltı",
     "EşofmanÜstü",
+    "Kazak",
     "Şort"
   ];
   for (const name of categories) {
