@@ -11,5 +11,8 @@
     "express": "^4.21.2",
     "multer": "^2.0.2",
     "prisma": "^5.22.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

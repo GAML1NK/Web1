@@ -13,10 +13,7 @@ export default function Categories() {
       fetch("http://localhost:3001/products").then(res => res.json())
     ]).then(([catData, products]) => {
       setProdData(products);
-      const erkekKategoriler = catData.filter(cat => [
-        "Gömlek", "Pantolon", "Ceket", "Tişört", "Takım Elbise", "Kazak"
-      ].includes(cat.name));
-      const kategorilerWithUrun = erkekKategoriler.filter(cat => {
+      const kategorilerWithUrun = catData.filter(cat => {
         return products[cat.name] && products[cat.name].length > 0;
       });
       setCategories(kategorilerWithUrun);

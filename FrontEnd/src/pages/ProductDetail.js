@@ -37,13 +37,13 @@ export default function ProductDetail() {
           <div className="mb-3">
             <label>Varyantlar:</label>
             {product.variants && product.variants.length > 0 ? (
-              <ul>
-                {product.variants.map((v) => (
-                  <li key={v.id}>
-                    Renk: {v.color}, Beden: {v.size}, Stok: {v.stock}
-                  </li>
-                ))}
-              </ul>
+              <div className="row">
+                  {product.variants.map((variant, idx) => (
+                    <div key={idx} className="col-12 mb-3">
+                      <strong>Renk:</strong> {variant.color}, <strong>Beden:</strong> {variant.size}, <strong>Stok:</strong> {variant.stock}
+                    </div>
+                  ))}
+              </div>
             ) : (
               <span>Varyant yok</span>
             )}

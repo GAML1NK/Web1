@@ -17,22 +17,29 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Multer ayarları (fotoğraf upload)
+// Multer ayarları (ana fotoğraf + varyant fotoğrafları)
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, path.join(__dirname, 'uploads'));
-	},
-	filename: function (req, file, cb) {
-		cb(null, Date.now() + '-' + file.originalname);
-	}
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'uploads'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
 });
 const upload = multer({ storage });
 
-// Ürün ekleme (fotoğraf + bilgiler)
-app.post('/products', upload.single('image'), async (req, res) => {
+// Ürün ekleme (ana fotoğraf + varyant fotoğrafları + bilgiler)
+app.post('/products', upload.fields([
+	{ name: 'image', maxCount: 1 },
+	{ name: 'variantImages', maxCount: 10 }
+]), async (req, res) => {
 	try {
 		const { name, description, categoryId, variants } = req.body;
-		const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+		const imageUrl = req.files['image'] && req.files['image'][0] ? `/uploads/${req.files['image'][0].filename}` : null;
+		const variantImages = req.files['variantImages'] || [];
+		let variantList = JSON.parse(variants || '[]');
+		// Varyantlardan image alanı kaldırıldı
+		variantList = variantList.map(({ color, size, stock }) => ({ color, size, stock }));
 		// Ürün oluştur
 		const product = await prisma.product.create({
 			data: {
@@ -40,8 +47,8 @@ app.post('/products', upload.single('image'), async (req, res) => {
 				description,
 				imageUrl,
 				categoryId: parseInt(categoryId),
-				variants: variants ? {
-					create: JSON.parse(variants) // [{color, size, stock}, ...]
+				variants: variantList.length > 0 ? {
+					create: variantList
 				} : undefined
 			},
 			include: { variants: true }
@@ -78,6 +85,24 @@ app.get('/categories', async (req, res) => {
 		res.json(categories);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
+	}
+});
+
+// Yeni kategori ekleme
+app.post('/categories', async (req, res) => {
+	try {
+		const { name } = req.body;
+		if (!name || name.trim() === "") {
+			return res.status(400).json({ error: "Kategori adı gerekli." });
+		}
+		const category = await prisma.category.create({ data: { name } });
+		res.status(201).json(category);
+	} catch (error) {
+		if (error.code === 'P2002') {
+			res.status(409).json({ error: "Bu isimde bir kategori zaten var." });
+		} else {
+			res.status(500).json({ error: error.message });
+		}
 	}
 });
 

@@ -1,6 +1,33 @@
 import React, { useState } from "react";
 
 export default function AdminPanel() {
+  const [newCategory, setNewCategory] = useState("");
+  const [catMessage, setCatMessage] = useState("");
+  const handleCategoryAdd = async (e) => {
+    e.preventDefault();
+    if (!newCategory.trim()) {
+      setCatMessage("Kategori adı boş olamaz.");
+      return;
+    }
+    // Kategori adındaki boşlukları kaldır
+    const formattedName = newCategory.replace(/\s+/g, "");
+    const res = await fetch("http://localhost:3001/categories", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: formattedName })
+    });
+    if (res.ok) {
+      setCatMessage("Kategori başarıyla eklendi!");
+      setNewCategory("");
+      // Kategorileri tekrar çek
+      fetch("http://localhost:3001/categories")
+        .then(res => res.json())
+        .then(data => setCategories(data));
+    } else {
+      const err = await res.json();
+      setCatMessage(err.error || "Bir hata oluştu.");
+    }
+  };
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -39,10 +66,11 @@ export default function AdminPanel() {
   };
 
   const handleVariantChange = (idx, e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     const newVariants = [...form.variants];
     if (name === "stock") {
       newVariants[idx][name] = value === "" ? "" : Number(value);
+    // Varyant fotoğrafı kaldırıldı
     } else {
       newVariants[idx][name] = value;
     }
@@ -50,7 +78,7 @@ export default function AdminPanel() {
   };
 
   const addVariant = () => {
-    setForm({ ...form, variants: [...form.variants, { color: "", size: "", stock: "" }] });
+  setForm({ ...form, variants: [...form.variants, { color: "", size: "", stock: "" }] });
   };
 
   const removeVariant = (idx) => {
@@ -65,6 +93,7 @@ export default function AdminPanel() {
     data.append("description", form.description);
     data.append("categoryId", form.categoryId);
     if (form.image) data.append("image", form.image);
+    // Varyant fotoğrafı kaldırıldı
     data.append("variants", JSON.stringify(form.variants));
     const res = await fetch("http://localhost:3001/products", {
       method: "POST",
@@ -77,7 +106,7 @@ export default function AdminPanel() {
         description: "",
         categoryId: "",
         image: null,
-        variants: [{ color: "", size: "", stock: "" }],
+        variants: [{ color: "", size: "", stock: "", image: null }],
       });
     } else {
       setMessage("Bir hata oluştu.");
@@ -86,6 +115,15 @@ export default function AdminPanel() {
 
   return (
     <div className="container mt-5 pt-5">
+      <h2>Kategori Ekle (Admin Panel)</h2>
+      <form onSubmit={handleCategoryAdd} className="mb-4">
+        <div className="mb-3">
+          <label className="form-label">Kategori Adı</label>
+          <input type="text" className="form-control" value={newCategory} onChange={e => setNewCategory(e.target.value)} required />
+        </div>
+        <button type="submit" className="btn btn-success">Kategori Ekle</button>
+        {catMessage && <div className="mt-2 alert alert-info">{catMessage}</div>}
+      </form>
       <h2>Ürün Ekle (Admin Panel)</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="mb-3">
@@ -112,10 +150,11 @@ export default function AdminPanel() {
         <div className="mb-3">
           <label className="form-label">Varyantlar</label>
           {form.variants.map((variant, idx) => (
-            <div key={idx} className="d-flex gap-2 mb-2">
+            <div key={idx} className="d-flex gap-2 mb-2 align-items-center">
               <input type="text" name="color" placeholder="Renk" className="form-control" value={variant.color} onChange={(e) => handleVariantChange(idx, e)} required />
               <input type="text" name="size" placeholder="Beden" className="form-control" value={variant.size} onChange={(e) => handleVariantChange(idx, e)} required />
               <input type="number" name="stock" placeholder="Stok" className="form-control" value={variant.stock} onChange={(e) => handleVariantChange(idx, e)} required />
+              {/* Varyant fotoğrafı kaldırıldı */}
               {form.variants.length > 1 && <button type="button" className="btn btn-danger" onClick={() => removeVariant(idx)}>Sil</button>}
             </div>
           ))}
