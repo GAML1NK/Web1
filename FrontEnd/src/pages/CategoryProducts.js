@@ -28,7 +28,7 @@ export default function CategoryProducts() {
           <div className="col-md-4 mb-4" key={product.id}>
             <div className="card h-100">
               <img
-                src={product.imageUrl || "/img/erkekGiyim.jpg"}
+                src={product.imageUrl ? (product.imageUrl.startsWith('/uploads') ? `http://localhost:3001${product.imageUrl}` : product.imageUrl) : "/img/erkekGiyim.jpg"}
                 className="card-img-top w-100"
                 alt={product.name}
                 style={{ height: "350px", objectFit: "cover" }}

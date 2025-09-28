@@ -4,46 +4,62 @@ import { Link } from "react-router-dom";
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  const [prodData, setProdData] = useState({});
   useEffect(() => {
-    // Sadece erkek giyim kategorilerini çek
-    fetch("http://localhost:3001/categories")
-      .then((res) => res.json())
-      .then((data) => {
-        // Erkek giyim ile ilgili kategorileri filtrele (örnek: Gömlek, Pantolon, Ceket, Tişört, Takım Elbise)
-        const erkekKategoriler = data.filter(cat => [
-          "Gömlek", "Pantolon", "Ceket", "Tişört", "Takım Elbise"
-        ].includes(cat.name));
-        setCategories(erkekKategoriler);
+    Promise.all([
+      fetch("http://localhost:3001/categories").then(res => res.json()),
+      fetch("http://localhost:3001/products").then(res => res.json())
+    ]).then(([catData, products]) => {
+      setProdData(products);
+      const erkekKategoriler = catData.filter(cat => [
+        "Gömlek", "Pantolon", "Ceket", "Tişört", "Takım Elbise", "Kazak"
+      ].includes(cat.name));
+      const kategorilerWithUrun = erkekKategoriler.filter(cat => {
+        return products[cat.name] && products[cat.name].length > 0;
       });
+      setCategories(kategorilerWithUrun);
+      setLoading(false);
+    });
   }, []);
 
+  if (loading) return <div className="container mt-5">Yükleniyor...</div>;
   return (
     <div className="container mt-5 pt-5">
       <h1 className="mb-4">Kategoriler</h1>
       <div className="row">
-        {categories.map((cat) => (
-          <div className="col-md-4 mb-4" key={cat.id}>
-            <div className="card h-100 shadow-sm">
-              <img
-                src={"/img/erkekGiyim.jpg"}
-                className="card-img-top w-100"
-                alt={cat.name}
-                style={{ height: "550px", objectFit: "cover" }}
-              />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">{cat.name}</h5>
-                <p className="card-text flex-grow-1">Erkek giyim ürünleri</p>
-                <Link
-                  to={`/urunler/${cat.name.toLowerCase()}`}
-                  className="btn btn-outline-primary mt-auto"
-                >
-                  Ürünleri Gör
-                </Link>
+        {categories.map((cat) => {
+          let imgSrc = "/img/erkekGiyim.jpg";
+          const urunler = prodData[cat.name];
+          if (urunler && urunler.length > 0) {
+            const randomIndex = Math.floor(Math.random() * urunler.length);
+            const urun = urunler[randomIndex];
+            imgSrc = urun.imageUrl ? (urun.imageUrl.startsWith('/uploads') ? `http://localhost:3001${urun.imageUrl}` : urun.imageUrl) : imgSrc;
+          }
+          return (
+            <div className="col-md-4 mb-4" key={cat.id}>
+              <div className="card h-100 shadow-sm">
+                <img
+                  src={imgSrc}
+                  className="card-img-top w-100"
+                  alt={cat.name}
+                  style={{ height: "550px", objectFit: "cover" }}
+                />
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title">{cat.name}</h5>
+                  <p className="card-text flex-grow-1">Erkek giyim ürünleri</p>
+                  <Link
+                    to={`/urunler/${cat.name.toLowerCase()}`}
+                    className="btn btn-outline-primary mt-auto"
+                  >
+                    Ürünleri Gör
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
