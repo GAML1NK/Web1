@@ -15,19 +15,19 @@ export default function Home() {
           <p className="lead home-info-lead">Tekstil Mağazası, en yeni moda ürünlerini uygun fiyatlarla sunar. Geniş ürün yelpazemiz, hızlı teslimat ve müşteri memnuniyeti odaklı hizmet anlayışımız ile alışverişinizi keyfe dönüştürüyoruz.</p>
           <ul className="list-unstyled row">
             <li className="col-md-4 mb-3">
-              <div className="h-100 p-3 border rounded bg-light">
+              <div className="h-100 p-3 border rounded info-card">
                 <strong>Güvenli Alışveriş</strong>
                 <p className="mb-0">SSL sertifikalı, güvenli ödeme altyapısı.</p>
               </div>
             </li>
             <li className="col-md-4 mb-3">
-              <div className="h-100 p-3 border rounded bg-light">
+              <div className="h-100 p-3 border rounded info-card">
                 <strong>Hızlı Kargo</strong>
                 <p className="mb-0">Siparişleriniz aynı gün kargoda.</p>
               </div>
             </li>
             <li className="col-md-4 mb-3">
-              <div className="h-100 p-3 border rounded bg-light">
+              <div className="h-100 p-3 border rounded info-card">
                 <strong>7/24 Destek</strong>
                 <p className="mb-0">Her zaman ulaşabileceğiniz müşteri hizmetleri.</p>
               </div>

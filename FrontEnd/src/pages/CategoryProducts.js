@@ -11,8 +11,15 @@ export default function CategoryProducts() {
       .then((res) => res.json())
       .then((data) => {
         // Kategori adını eşleştirerek ilgili ürünleri filtrele
-        const catKey = kategori.charAt(0).toUpperCase() + kategori.slice(1);
-        const catProducts = data[catKey] || [];
+        // Kategori anahtarlarını normalize ederek eşleştir
+        const normalizedKategori = kategori.replace(/\s+/g, "").toLowerCase();
+        let catProducts = [];
+        Object.keys(data).forEach(key => {
+          const normalizedKey = key.replace(/\s+/g, "").toLowerCase();
+          if (normalizedKey === normalizedKategori) {
+            catProducts = data[key];
+          }
+        });
         setProducts(catProducts);
       });
   }, [kategori]);

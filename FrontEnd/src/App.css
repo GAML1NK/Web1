@@ -1,3 +1,103 @@
+/* === DARK MODE BAŞLANGIÇ === */
+/* Home info kartları dark mode */
+.dark-mode .info-card {
+  background: #232323 !important; /* Kart arka planı */
+  color: #f1f1f1 !important;      /* Kart metin rengi */
+  border: 1px solid #444 !important;
+}
+
+/* İletişim kutusu dark mode */
+.dark-mode .contact-box {
+  background: #232323 !important; /* İletişim kutusu arka planı */
+  color: #f1f1f1 !important;      /* Metin rengi */
+  border: 1px solid #444 !important;
+}
+/* Ana içerik container ve hero section dark mode */
+.dark-mode .container,
+.dark-mode .hero-section {
+  background: #181818 !important; /* Ana içerik ve tanıtım bölümü arka planı */
+  color: #f1f1f1 !important;
+}
+
+/* Home info section dark mode */
+.dark-mode .home-info-section .bg-light {
+  background: #181818 !important; /* Home info arka planı */
+  color: #f1f1f1 !important;
+}
+
+/* Sayfa arka planı ve genel metin rengi */
+.dark-mode {
+  background: #181818 !important; /* Tüm sayfa arka planı */
+  color: #f1f1f1 !important;      /* Tüm sayfa metin rengi */
+}
+
+/* Navbar ve footer */
+.dark-mode .navbar, .dark-mode .footer {
+  background: #20232a !important; /* Navbar ve footer arka planı */
+  color: #f1f1f1 !important;      /* Navbar ve footer metin rengi */
+  border-bottom: 1px solid #333 !important; /* Alt kenarlık */
+}
+
+/* Kartlar (ürün, bilgi, vs) */
+.dark-mode .card {
+  background: #232323 !important; /* Kart arka planı */
+  color: #f1f1f1 !important;      /* Kart metin rengi */
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35) !important; /* Kart gölgesi */
+  border-radius: 18px !important; /* Kart köşe yuvarlama */
+  border: 1px solid #333 !important; /* Kart kenarlık */
+}
+
+/* Kart başlıkları ve ana başlıklar */
+.dark-mode .card-title, .dark-mode h1, .dark-mode h2, .dark-mode h5 {
+  color: #e2e2e2 !important; /* Başlık rengi */
+}
+
+/* Linkler ve buton linkler */
+.dark-mode a, .dark-mode .btn-link {
+  color: #ffffff !important; /* Link rengi */
+}
+
+/* Bilgi kutuları (alert) */
+.dark-mode .alert-info {
+  background: #222 !important; /* Alert arka planı */
+  color: #ffffff !important;   /* Alert metin rengi */
+  border: 1px solid #444 !important; /* Alert kenarlık */
+}
+
+/* Form elemanları (input, textarea, select) */
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select,
+.dark-mode .form-control,
+.dark-mode .form-select {
+  background: #232323 !important; /* Form arka planı */
+  color: #f1f1f1 !important;      /* Form metin rengi */
+  border-color: #444 !important;  /* Form kenarlık */
+}
+
+/* Butonlar */
+.dark-mode .btn,
+.dark-mode .btn-primary,
+.dark-mode .btn-success,
+.dark-mode .btn-danger,
+.dark-mode .btn-secondary {
+  background: #575050 !important; /* Buton arka planı */
+  color: #f1f1f1 !important;   /* Buton metin rengi */
+  border: none;
+}
+
+/* Sıkça Sorulan Sorular paneli ve canlı destek butonu */
+.dark-mode .live-support-panel {
+  background: #232323 !important; /* Panel arka planı */
+  color: #f1f1f1 !important;      /* Panel metin rengi */
+  border: 1px solid #444 !important; /* Panel kenarlık */
+}
+.dark-mode .live-support-btn {
+  background: #333 !important; /* Buton arka planı */
+  color: #ffffff !important;   /* Buton metin rengi */
+}
+
+/* === DARK MODE SONU === */
 /* Home sayfası tanıtım bölümü için büyük yazı stili */
 .home-info-section {
   padding-top: 115px !important;

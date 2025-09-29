@@ -1,5 +1,8 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 import MyNavbar from "./Navbar";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import Footer from "./Footer";
 import Home from "../pages/Home";
 import Categories from "../pages/Categories";
@@ -10,10 +13,20 @@ import LiveSupport from "./LiveSupport";
 import AdminPanel from "../pages/AdminPanel";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
+  // Body'ye dark-mode sınıfı ekle
+  React.useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
   return (
-    <div className="d-flex flex-column min-vh-100">
-      {/* Sabit navbar */}
-      <MyNavbar />
+    <div>
+      {/* Sabit navbar, darkMode ve toggleDarkMode prop olarak geçiliyor */}
+      <MyNavbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
       {/* Orta içerik */}
       <div className="flex-grow-1">

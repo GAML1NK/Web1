@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import '../i18n';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function MyNavbar() {
   const { t, i18n } = useTranslation();
@@ -42,6 +43,10 @@ export default function MyNavbar() {
     }
   };
 
+  // App.js'den gelen darkMode ve toggleDarkMode props'unu al
+  const props = arguments[0] || {};
+  const darkMode = props.darkMode;
+  const toggleDarkMode = props.toggleDarkMode;
   return (
     <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
       <Container>
@@ -54,6 +59,7 @@ export default function MyNavbar() {
             className="me-2"
           />
         </Navbar.Brand>
+        
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
@@ -65,6 +71,17 @@ export default function MyNavbar() {
             <Nav.Link onClick={() => i18n.changeLanguage('en')}>EN</Nav.Link>
           </Nav>
         </Navbar.Collapse>
+        {/* Karanlık mod butonu navbar sağında */}
+        <div className="d-flex align-items-center ms-auto me-2">
+          <button
+            onClick={toggleDarkMode}
+            className="btn btn-secondary"
+            style={{ display: "flex", alignItems: "center", gap: "8px" }}
+            aria-label={darkMode ? "Açık Mod" : "Karanlık Mod"}
+          >
+            <i className={`bi ${darkMode ? "bi-moon-fill" : "bi-moon"}`} style={{ fontSize: "1.5rem" }}></i>
+          </button>
+        </div>
       </Container>
     </Navbar>
   );
