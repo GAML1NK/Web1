@@ -1,21 +1,39 @@
-
-
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const multer = require('multer');
 const path = require('path');
-
+const cors = require('cors');
 
 const prisma = new PrismaClient();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// CORS middleware
-const cors = require('cors');
 app.use(cors());
-
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Kargo CRUD
+app.get('/kargos', async (req, res) => {
+	try {
+		const kargos = await prisma.kargo.findMany();
+		res.json(kargos);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+});
+
+app.post('/kargos', async (req, res) => {
+	try {
+		const { name, phone, email, address } = req.body;
+		if (!name || !phone || !email || !address) {
+			return res.status(400).json({ error: 'Tüm alanlar zorunlu.' });
+		}
+		const kargo = await prisma.kargo.create({ data: { name, phone, email, address } });
+		res.status(201).json(kargo);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+});
 
 // Multer ayarları (ana fotoğraf + varyant fotoğrafları)
 const storage = multer.diskStorage({

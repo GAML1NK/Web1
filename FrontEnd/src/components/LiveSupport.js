@@ -37,6 +37,15 @@ export default function LiveSupport() {
               </li>
             ))}
           </ul>
+          <button
+            className="btn btn-primary w-100 mb-2"
+            onClick={() => {
+              window.location.href = '/kargolar';
+            }}
+            type="button"
+          >
+            Kargolar
+          </button>
           <a
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"

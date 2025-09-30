@@ -9,6 +9,7 @@ import Categories from "../pages/Categories";
 import Contact from "../pages/Contact";
 import ProductDetail from "../pages/ProductDetail";
 import CategoryProducts from "../pages/CategoryProducts";
+import Kargolar from "../pages/Kargolar";
 import LiveSupport from "./LiveSupport";
 import AdminPanel from "../pages/AdminPanel";
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="/urun/:id" element={<ProductDetail />} />
           <Route path="/urunler/:kategori" element={<CategoryProducts />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/kargolar" element={<Kargolar />} />
         </Routes>
       </div>
 

@@ -20,7 +20,7 @@
 }
 
 /* Home info section dark mode */
-.dark-mode .home-info-section .bg-light {
+.dark-mode .home-info-section {
   background: #181818 !important; /* Home info arka planı */
   color: #f1f1f1 !important;
 }
