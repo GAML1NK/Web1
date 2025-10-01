@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 export default function AdminPanel() {
+  const { t } = useTranslation();
   // Kargo ekleme için state ve fonksiyonlar
   const [kargoForm, setKargoForm] = useState({ name: "", phone: "", email: "", address: "" });
   const [kargoMessage, setKargoMessage] = useState("");
@@ -11,7 +13,7 @@ export default function AdminPanel() {
   const handleKargoAdd = async (e) => {
     e.preventDefault();
     if (!kargoForm.name || !kargoForm.phone || !kargoForm.email || !kargoForm.address) {
-      setKargoMessage("Tüm alanlar zorunlu.");
+      setKargoMessage(t('admin.kargo.required'));
       return;
     }
     const res = await fetch("http://localhost:3001/kargos", {
@@ -20,11 +22,11 @@ export default function AdminPanel() {
       body: JSON.stringify(kargoForm)
     });
     if (res.ok) {
-      setKargoMessage("Kargo başarıyla eklendi!");
+      setKargoMessage(t('admin.kargo.success'));
       setKargoForm({ name: "", phone: "", email: "", address: "" });
     } else {
       const err = await res.json();
-      setKargoMessage(err.error || "Bir hata oluştu.");
+      setKargoMessage(err.error || t('admin.kargo.required'));
     }
   };
   const [newCategory, setNewCategory] = useState("");
@@ -32,7 +34,7 @@ export default function AdminPanel() {
   const handleCategoryAdd = async (e) => {
     e.preventDefault();
     if (!newCategory.trim()) {
-      setCatMessage("Kategori adı boş olamaz.");
+      setCatMessage(t('admin.category.required'));
       return;
     }
     // Kategori adındaki boşlukları kaldır
@@ -43,7 +45,7 @@ export default function AdminPanel() {
       body: JSON.stringify({ name: formattedName })
     });
     if (res.ok) {
-      setCatMessage("Kategori başarıyla eklendi!");
+      setCatMessage(t('admin.category.success'));
       setNewCategory("");
       // Kategorileri tekrar çek
       fetch("http://localhost:3001/categories")
@@ -51,7 +53,7 @@ export default function AdminPanel() {
         .then(data => setCategories(data));
     } else {
       const err = await res.json();
-      setCatMessage(err.error || "Bir hata oluştu.");
+      setCatMessage(err.error || t('admin.category.required'));
     }
   };
   const [form, setForm] = useState({
@@ -139,15 +141,16 @@ export default function AdminPanel() {
     }
   };
 
+
   return (
     <div className="container mt-5 pt-5">   
-      <h2>Kategori Ekle (Admin Panel)</h2>
+      <h2>{t('admin.category.add')} (Admin Panel)</h2>
       <form onSubmit={handleCategoryAdd} className="mb-4">
         <div className="mb-3">
-          <label className="form-label">Kategori Adı</label>
+          <label className="form-label">{t('admin.category.add')}</label>
           <input type="text" className="form-control" value={newCategory} onChange={e => setNewCategory(e.target.value)} required />
         </div>
-        <button type="submit" className="btn btn-success">Kategori Ekle</button>
+        <button type="submit" className="btn btn-success">{t('admin.category.add')}</button>
         {catMessage && <div className="mt-2 alert alert-info">{catMessage}</div>}
       </form>
       <h2>Ürün Ekle (Admin Panel)</h2>
@@ -188,10 +191,10 @@ export default function AdminPanel() {
         </div>
         <button type="submit" className="btn btn-primary">Ürün Ekle</button>
       </form>
-      <h2>Kargo Ekle (Admin Panel)</h2>
+      <h2>{t('admin.kargo.add')} (Admin Panel)</h2>
        <form onSubmit={handleKargoAdd} className="mb-4">
    <div className="mb-3">
-     <label className="form-label">Kargo Adı</label>
+     <label className="form-label">{t('admin.kargo.add')}</label>
      <input type="text" className="form-control" name="name" value={kargoForm.name} onChange={handleKargoChange} required />
    </div>
    <div className="mb-3">
@@ -206,7 +209,7 @@ export default function AdminPanel() {
      <label className="form-label">Adres</label>
      <input type="text" className="form-control" name="address" value={kargoForm.address} onChange={handleKargoChange} required />
    </div>
-   <button type="submit" className="btn btn-success">Kargo Ekle</button>
+   <button type="submit" className="btn btn-success">{t('admin.kargo.add')}</button>
    {kargoMessage && <div className="mt-2 alert alert-info">{kargoMessage}</div>}
  </form>
       {message && <div className="mt-3 alert alert-info">{message}</div>}

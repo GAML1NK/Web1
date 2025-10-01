@@ -1,11 +1,12 @@
 
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 export default function Categories() {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [prodData, setProdData] = useState({});
   useEffect(() => {
     Promise.all([
@@ -21,10 +22,10 @@ export default function Categories() {
     });
   }, []);
 
-  if (loading) return <div className="container mt-5">Yükleniyor...</div>;
+  if (loading) return <div className="container mt-5">{t('categories.loading')}</div>;
   return (
     <div className="container mt-5 pt-5">
-      <h1 className="mb-4">Kategoriler</h1>
+      <h1 className="mb-4">{t('categories.title')}</h1>
       <div className="row">
         {categories.map((cat) => {
           let imgSrc = "/img/erkekGiyim.jpg";
@@ -45,12 +46,12 @@ export default function Categories() {
                 />
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{cat.name}</h5>
-                  <p className="card-text flex-grow-1">Erkek giyim ürünleri</p>
+                  <p className="card-text flex-grow-1">{t('categories.desc')}</p>
                   <Link
                     to={`/urunler/${cat.name.toLowerCase()}`}
                     className="btn btn-outline-primary mt-auto"
                   >
-                    Ürünleri Gör
+                    {t('categories.products')}
                   </Link>
                 </div>
               </div>

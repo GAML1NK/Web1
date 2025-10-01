@@ -1,10 +1,13 @@
 
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "./ProductCard";
 import '../App.css';
+import { useTranslation } from 'react-i18next';
 
 export default function Products() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -19,7 +22,7 @@ export default function Products() {
 
   return (
     <div className="container my-5 products-section">
-      <h2 className="mb-4">Öne Çıkan Ürünler</h2>
+      <h2 className="mb-4">{t('products.featured')}</h2>
       <div className="row">
         {products.map((product) => (
           <div className="col-md-4 mb-4 product-card" key={product.id}>

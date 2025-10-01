@@ -1,7 +1,10 @@
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 export default function ProductDetail() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,8 +20,8 @@ export default function ProductDetail() {
       });
   }, [id]);
 
-  if (loading) return <div className="container mt-5">Yükleniyor...</div>;
-  if (!product) return <div className="container mt-5">Ürün bulunamadı.</div>;
+  if (loading) return <div className="container mt-5">{t('categories.loading')}</div>;
+  if (!product) return <div className="container mt-5">{t('productDetail.notFound')}</div>;
 
   return (
     <div className="container mt-5 pt-5">
@@ -35,7 +38,7 @@ export default function ProductDetail() {
           <h2>{product.name}</h2>
           <p>{product.description}</p>
           <div className="mb-3">
-            <label>Varyantlar:</label>
+            <label>{t('productDetail.variants')}</label>
             {product.variants && product.variants.length > 0 ? (
               <div className="row">
                   {product.variants.map((variant, idx) => (
@@ -45,10 +48,10 @@ export default function ProductDetail() {
                   ))}
               </div>
             ) : (
-              <span>Varyant yok</span>
+              <span>{t('productDetail.noVariant')}</span>
             )}
           </div>
-          <button className="btn btn-success">Sepete Ekle</button>
+          <button className="btn btn-success">{t('productDetail.addToCart')}</button>
         </div>
       </div>
     </div>

@@ -63,10 +63,10 @@ export default function MyNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/" onClick={handleHomeClick}>{t('home')}</Nav.Link>
-            <Nav.Link as={Link} to="/kategoriler">{t('categories')}</Nav.Link>
-            <Nav.Link href="#contact-section" onClick={handleContactClick}>{t('contact')}</Nav.Link>
-            <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
+            <Nav.Link as={Link} to="/" onClick={handleHomeClick}>{t('navbar.home')}</Nav.Link>
+            <Nav.Link as={Link} to="/kategoriler">{t('navbar.categories')}</Nav.Link>
+            <Nav.Link href="#contact-section" onClick={handleContactClick}>{t('navbar.contact')}</Nav.Link>
+            <Nav.Link as={Link} to="/admin">{t('admin')}</Nav.Link>
             <Nav.Link onClick={() => i18n.changeLanguage('tr')}>TR</Nav.Link>
             <Nav.Link onClick={() => i18n.changeLanguage('en')}>EN</Nav.Link>
           </Nav>

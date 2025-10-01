@@ -1,8 +1,11 @@
 
+
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 export default function CategoryProducts() {
+  const { t } = useTranslation();
   const { kategori } = useParams();
   const [products, setProducts] = useState([]);
 
@@ -26,10 +29,10 @@ export default function CategoryProducts() {
 
   return (
     <div className="container mt-5 pt-5">
-      <h2 className="mb-4 text-capitalize">{kategori} Kategorisi Ürünleri</h2>
+      <h2 className="mb-4 text-capitalize">{t('categoryProducts.title', { category: kategori })}</h2>
       <div className="row">
         {products.length === 0 && (
-          <div className="col-12">Bu kategoride ürün bulunamadı.</div>
+          <div className="col-12">{t('categoryProducts.empty')}</div>
         )}
         {products.map((product) => (
           <div className="col-md-4 mb-4" key={product.id}>
@@ -44,7 +47,7 @@ export default function CategoryProducts() {
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text">{product.price || ""}</p>
                 <Link to={`/urun/${product.id}`} className="btn btn-primary mt-auto">
-                  Ürünü Gör
+                  {t('categoryProducts.see')}
                 </Link>
               </div>
             </div>
