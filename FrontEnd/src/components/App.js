@@ -12,11 +12,12 @@ import CategoryProducts from "../pages/CategoryProducts";
 import Kargolar from "../pages/Kargolar";
 import LiveSupport from "./LiveSupport";
 import AdminPanel from "../pages/AdminPanel";
+import Login from "../pages/Login";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const [auth, setAuth] = useState({ token: localStorage.getItem('token') || '', role: localStorage.getItem('role') || '' });
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
-  // Body'ye dark-mode sınıfı ekle
   React.useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark-mode");
@@ -26,10 +27,7 @@ function App() {
   }, [darkMode]);
   return (
     <div>
-      {/* Sabit navbar, darkMode ve toggleDarkMode prop olarak geçiliyor */}
-      <MyNavbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-
-      {/* Orta içerik */}
+      <MyNavbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} auth={auth} setAuth={setAuth} />
       <div className="flex-grow-1">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -37,12 +35,11 @@ function App() {
           <Route path="/iletisim" element={<Contact />} />
           <Route path="/urun/:id" element={<ProductDetail />} />
           <Route path="/urunler/:kategori" element={<CategoryProducts />} />
-          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/admin" element={auth.role === 'ADMIN' ? <AdminPanel /> : <Login setAuth={setAuth} />} />
+          <Route path="/login" element={<Login setAuth={setAuth} />} />
           <Route path="/kargolar" element={<Kargolar />} />
         </Routes>
       </div>
-
-      {/* Sabit footer */}
       <Footer />
       <LiveSupport />
     </div>

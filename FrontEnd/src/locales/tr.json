@@ -37,6 +37,7 @@
   "admin.kargo.success": "Kargo başarıyla eklendi!",
   "admin.kargo.required": "Tüm alanlar zorunlu.",
   "admin": "Admin",
+  "navbar.login": "Giriş Yap",
   "admin.category.add": "Kategori Ekle",
   "admin.category.success": "Kategori başarıyla eklendi!",
   "admin.category.required": "Kategori adı boş olamaz.",

@@ -1,11 +1,52 @@
 const express = require('express');
+const cors = require('cors');
+const app = express();
+const jwt = require('jsonwebtoken');
+const SECRET = process.env.JWT_SECRET || 'supersecretkey';
 const { PrismaClient } = require('@prisma/client');
+
+app.use(cors({ origin: true, credentials: true }));
+app.use(express.json());
+const prisma = new PrismaClient();
+
+// Kullanıcı kaydı (sadece test için, gerçek projede şifre hashlenmeli)
+app.post('/register', async (req, res) => {
+	const { email, password, role } = req.body;
+	if (!email || !password) return res.status(400).json({ error: 'Email ve şifre zorunlu.' });
+	try {
+		const user = await prisma.user.create({ data: { email, password, role: role || 'USER' } });
+		res.status(201).json({ id: user.id, email: user.email, role: user.role });
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
+// Login endpoint (JWT döner)
+app.post('/login', async (req, res) => {
+	const { email, password } = req.body;
+	if (!email || !password) return res.status(400).json({ error: 'Email ve şifre zorunlu.' });
+	const user = await prisma.user.findUnique({ where: { email } });
+	if (!user || user.password !== password) return res.status(401).json({ error: 'Geçersiz giriş.' });
+	const token = jwt.sign({ userId: user.id, role: user.role }, SECRET, { expiresIn: '1d' });
+	res.json({ token, role: user.role });
+});
+
+// Kullanıcı rolünü doğrulama (token ile)
+app.get('/me', async (req, res) => {
+	const auth = req.headers.authorization;
+	if (!auth) return res.status(401).json({ error: 'Token gerekli.' });
+	try {
+		const decoded = jwt.verify(auth.replace('Bearer ', ''), SECRET);
+		const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+		if (!user) return res.status(404).json({ error: 'Kullanıcı bulunamadı.' });
+		res.json({ id: user.id, email: user.email, role: user.role });
+	} catch (err) {
+		res.status(401).json({ error: 'Token geçersiz.' });
+	}
+});
 const multer = require('multer');
 const path = require('path');
-const cors = require('cors');
 
-const prisma = new PrismaClient();
-const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
