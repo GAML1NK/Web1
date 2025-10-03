@@ -20,6 +20,9 @@ export default function Login({ setAuth }) {
       if (res.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role);
+        if (data.userId || data.id) {
+          localStorage.setItem('userId', data.userId ? String(data.userId) : String(data.id));
+        }
         setAuth({ token: data.token, role: data.role });
         navigate('/');
       } else {

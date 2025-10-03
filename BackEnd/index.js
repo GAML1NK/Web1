@@ -93,7 +93,7 @@ app.post('/products', upload.fields([
 	{ name: 'variantImages', maxCount: 10 }
 ]), async (req, res) => {
 	try {
-		const { name, description, categoryId, variants } = req.body;
+		const { name, description, categoryId, variants, visibility, allowedUserIds } = req.body;
 		const imageUrl = req.files['image'] && req.files['image'][0] ? `/uploads/${req.files['image'][0].filename}` : null;
 		const variantImages = req.files['variantImages'] || [];
 		let variantList = JSON.parse(variants || '[]');
@@ -106,6 +106,8 @@ app.post('/products', upload.fields([
 				description,
 				imageUrl,
 				categoryId: parseInt(categoryId),
+				visibility: visibility || 'ALL',
+				allowedUserIds: allowedUserIds || null,
 				variants: variantList.length > 0 ? {
 					create: variantList
 				} : undefined

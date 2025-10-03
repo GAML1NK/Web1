@@ -9,12 +9,14 @@ export default function CategoryProducts() {
   const { kategori } = useParams();
   const [products, setProducts] = useState([]);
 
+  // Kullanıcı bilgisi localStorage'dan alınır
+  const userId = localStorage.getItem('userId');
+  const userRole = localStorage.getItem('role');
+
   useEffect(() => {
     fetch("http://localhost:3001/products")
       .then((res) => res.json())
       .then((data) => {
-        // Kategori adını eşleştirerek ilgili ürünleri filtrele
-        // Kategori anahtarlarını normalize ederek eşleştir
         const normalizedKategori = kategori.replace(/\s+/g, "").toLowerCase();
         let catProducts = [];
         Object.keys(data).forEach(key => {
@@ -23,9 +25,21 @@ export default function CategoryProducts() {
             catProducts = data[key];
           }
         });
-        setProducts(catProducts);
+        // Filtreleme: admin ise tüm ürünleri görür
+        let filtered = catProducts;
+        if (userRole !== 'ADMIN') {
+          filtered = catProducts.filter(product => {
+            if (product.visibility === 'ALL') return true;
+            if (product.visibility === 'SPECIAL' && userId && product.allowedUserIds) {
+              const allowed = product.allowedUserIds.split(',').map(id => id.trim());
+              return allowed.includes(userId);
+            }
+            return false;
+          });
+        }
+        setProducts(filtered);
       });
-  }, [kategori]);
+  }, [kategori, userId, userRole]);
 
   return (
     <div className="container mt-5 pt-5">

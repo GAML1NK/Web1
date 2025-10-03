@@ -40,6 +40,8 @@ model Product {
   categoryId  Int
   category    Category    @relation(fields: [categoryId], references: [id])
   variants    ProductVariant[]
+  visibility  String      @default("ALL") // ALL veya SPECIAL
+  allowedUserIds String? // Virgülle ayrılmış userId listesi ("1,2,3")
 }
 
 model ProductVariant {

@@ -62,6 +62,8 @@ export default function AdminPanel() {
     categoryId: "",
     image: null,
     variants: [{ color: "", size: "", stock: "" }],
+    visibility: "ALL",
+    allowedUserIds: ""
   });
   const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState("");
@@ -120,6 +122,8 @@ export default function AdminPanel() {
     data.append("name", form.name);
     data.append("description", form.description);
     data.append("categoryId", form.categoryId);
+    data.append("visibility", form.visibility);
+    data.append("allowedUserIds", form.allowedUserIds);
     if (form.image) data.append("image", form.image);
     // Varyant fotoğrafı kaldırıldı
     data.append("variants", JSON.stringify(form.variants));
@@ -135,6 +139,8 @@ export default function AdminPanel() {
         categoryId: "",
         image: null,
         variants: [{ color: "", size: "", stock: "", image: null }],
+        visibility: "ALL",
+        allowedUserIds: ""
       });
     } else {
       setMessage("Bir hata oluştu.");
@@ -155,6 +161,19 @@ export default function AdminPanel() {
       </form>
       <h2>Ürün Ekle (Admin Panel)</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <div className="mb-3">
+          <label className="form-label">Görünürlük</label>
+          <select name="visibility" className="form-select" value={form.visibility} onChange={handleChange}>
+            <option value="ALL">Herkes</option>
+            <option value="SPECIAL">Özel Kullanıcılar</option>
+          </select>
+        </div>
+        {form.visibility === "SPECIAL" && (
+          <div className="mb-3">
+            <label className="form-label">Kullanıcı ID'leri (virgülle ayır)</label>
+            <input type="text" name="allowedUserIds" className="form-control" value={form.allowedUserIds} onChange={handleChange} placeholder="1,2,3" />
+          </div>
+        )}
         <div className="mb-3">
           <label className="form-label">Ürün Adı</label>
           <input type="text" name="name" className="form-control" value={form.name} onChange={handleChange} required />
